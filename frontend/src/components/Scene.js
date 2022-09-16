@@ -54,13 +54,35 @@ const Scene = () => {
         
         //-----------------------------------------------------------------------------------------------------//
         
+
         
         //----------------------------------------- OBJECTS -----------------------------------------------------//
         //Cube:
-        const geometry = new THREE.BoxGeometry(1, 1, 1)
-        const material = new THREE.MeshStandardMaterial({})
+
+        const textureLoader = new THREE.TextureLoader()
+        const map = textureLoader.load('./bricks/Wall_Stone_010_basecolor.jpg')
+        const aoMap = textureLoader.load('./bricks/Wall_Stone_010_ambientOcclusion.jpg')
+        const roughnessMap = textureLoader.load('./bricks/Wall_Stone_010_roughness.jpg')
+        const normalMap = textureLoader.load('./bricks/Wall_Stone_010_normal.jpg')
+        const heightMap = textureLoader.load('./bricks/Wall_Stone_010_height.png')
+
+        const geometry = new THREE.BoxGeometry(1, 1, 1, 
+            200,
+            200,
+            200
+            )
+        const material = new THREE.MeshStandardMaterial({
+            map: map,
+            aoMap: aoMap,
+            roughnessMap: roughnessMap,
+            normalMap: normalMap,
+            displacementMap: heightMap,
+            displacementScale: 0.07
+        })
         const box = new THREE.Mesh( geometry, material )
         scene.add(box)
+
+        
 
 
         //CUBE:
@@ -104,8 +126,24 @@ const Scene = () => {
         
 
         //----------------------------------------- LIGHTS -----------------------------------------------------//
-        const AO = new THREE.AmbientLight(0xffffff, 1)
+        const AO = new THREE.AmbientLight(0xffffff, 0.5)
         scene.add(AO)
+
+        const pointLight = new THREE.PointLight(
+            0xff0000,
+            1.3,
+
+        )
+        pointLight.position.set(0, 0.6, 0)
+        scene.add(pointLight)
+
+        const directionalLight = new THREE.DirectionalLight(
+            0xffffff,
+            1.3,
+        )
+        directionalLight.position.set(4, 4, 4)
+        scene.add(directionalLight)
+
 
         //Render the scene
         const animate = () => {
