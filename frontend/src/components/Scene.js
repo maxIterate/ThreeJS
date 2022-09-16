@@ -127,7 +127,7 @@ const Scene = () => {
 
         //----------------------------------------- LIGHTS -----------------------------------------------------//
         const AO = new THREE.AmbientLight(0xffffff, 0.5)
-        scene.add(AO)
+        // scene.add(AO)
 
         const pointLight = new THREE.PointLight(
             0xff0000,
@@ -135,7 +135,7 @@ const Scene = () => {
 
         )
         pointLight.position.set(0, 0.6, 0)
-        scene.add(pointLight)
+        // scene.add(pointLight)
 
         const directionalLight = new THREE.DirectionalLight(
             0xffffff,
@@ -144,6 +144,17 @@ const Scene = () => {
         directionalLight.position.set(4, 4, 4)
         scene.add(directionalLight)
 
+        const enviromentMap = new THREE.CubeTextureLoader()
+        const envMap = enviromentMap.load([
+            './envmap/px.png',
+            './envmap/nx.png',
+            './envmap/py.png',
+            './envmap/ny.png',
+            './envmap/pz.png',
+            './envmap/nz.png'
+        ])
+        scene.environment = envMap
+        scene.background = envMap
 
         //Render the scene
         const animate = () => {
